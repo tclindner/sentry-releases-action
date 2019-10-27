@@ -255,6 +255,7 @@ const run = async () => {
     // This removes the 'refs/tags' portion of the string, i.e. from 'refs/tags/v1.0.0' to 'v1.0.0'
     const tag = tagName.replace('refs/tags/', '');
 
+    core.info(`Tag is: ${tag}`);
     // Create a release
     // await cli.releases.new(tag);
 
@@ -267,11 +268,11 @@ const run = async () => {
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 
-    await runCommand(sentryCliPath, ['releases', 'new', tag]);
     // await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
 
     // Finalize the release
     // await cli.releases.finalize(tag);
+    core.info(`sentryCliPath: ${sentryCliPath}`);
   } catch (error) {
     core.setFailed(error.message);
   }
