@@ -270,6 +270,7 @@ const run = async () => {
     const sentryCliPath = SentryCli.getPath();
 
     core.info(fs.existsSync(sentryCliPath));
+    core.info(process.cwd());
     core.info(fs.readdirSync(process.cwd()));
     core.info(`sentryCliPath: ${sentryCliPath}`);
     await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
