@@ -243,12 +243,14 @@ const run = async () => {
     const cli = new SentryCli();
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
-    const tagName = core.getInput('tagName', {
-      required: true
-    });
-    const environment = core.getInput('environment', {
-      required: true
-    });
+    // const tagName = core.getInput('tagName', {
+    //   required: true
+    // });
+    // const environment = core.getInput('environment', {
+    //   required: true
+    // });
+    const tagName = 'v1.0.0';
+    const environment = 'qa';
 
     // This removes the 'refs/tags' portion of the string, i.e. from 'refs/tags/v1.0.0' to 'v1.0.0'
     const tag = tagName.replace('refs/tags/', '');
@@ -257,9 +259,10 @@ const run = async () => {
     await cli.releases.new(tag);
 
     // Set commits
-    await cli.releases.setCommits(tag, {
-      auto: true
-    });
+    // await cli.releases.setCommits(tag, {
+    //   repo: 'repo',
+    //   auto: true
+    // });
 
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
