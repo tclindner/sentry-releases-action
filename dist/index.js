@@ -275,7 +275,8 @@ const run = async () => {
     core.info(fs.readdirSync(process.cwd()));
     core.info(fs.readdirSync('/home/runner/work/_actions/tclindner/sentry-releases-action/master/dist/'));
     core.info(`sentryCliPath: ${sentryCliPath}`);
-    await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
+    // await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
+    await runCommand('sentry-cli', ['releases', 'deploys', tag, 'new', '-e', environment]);
 
     // Finalize the release
     // await cli.releases.finalize(tag);
