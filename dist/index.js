@@ -895,11 +895,11 @@ const run = async () => {
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 
-    exec.exec(`chmod 755 ${sentryCliPath}`);
+    // exec.exec(`chmod 755 ${sentryCliPath}`);
     core.info(fs.existsSync(sentryCliPath));
-    core.info(process.cwd());
-    core.info(fs.readdirSync(process.cwd()));
-    core.info(fs.readdirSync('/home/runner/work/_actions/tclindner/sentry-releases-action/master/dist/'));
+    // core.info(process.cwd());
+    // core.info(fs.readdirSync(process.cwd()));
+    // core.info(fs.readdirSync('/home/runner/work/_actions/tclindner/sentry-releases-action/master/dist/'));
     core.info(`sentryCliPath: ${sentryCliPath}`);
     await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
 
