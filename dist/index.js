@@ -268,6 +268,7 @@ const run = async () => {
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 
+    core.addPath(sentryCliPath);
     core.info(`sentryCliPath: ${sentryCliPath}`);
     await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
 
