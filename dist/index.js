@@ -884,7 +884,7 @@ const run = async () => {
 
     core.info(`Tag is: ${tag}`);
     // Create a release
-    // await cli.releases.new(tag);
+    await cli.releases.new(tag);
 
     // Set commits
     // await cli.releases.setCommits(tag, {
@@ -904,7 +904,7 @@ const run = async () => {
     await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
 
     // Finalize the release
-    // await cli.releases.finalize(tag);
+    await cli.releases.finalize(tag);
   } catch (error) {
     core.setFailed(error.message);
   }
