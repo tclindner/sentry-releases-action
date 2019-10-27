@@ -1,0 +1,15 @@
+name: 'Create a Sentry.io release'
+description: 'Sentry.io releases for GitHub Actions'
+inputs:
+  tagName:
+    description: 'Release version name'
+    required: true
+  environment:
+    description: 'Environment name'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'bookmark'
+  color: 'purple'
