@@ -241,6 +241,7 @@ const {runCommand} = __webpack_require__(737);
 
 const run = async () => {
   try {
+    core.addPath('/home/runner/work/_actions/tclindner/sentry-releases-action/master/dist');
     const cli = new SentryCli();
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
