@@ -236,6 +236,7 @@ module.exports = {"_from":"@sentry/cli","_id":"@sentry/cli@1.48.0","_inBundle":f
 
 const core = __webpack_require__(310);
 const SentryCli = __webpack_require__(340);
+const fs = __webpack_require__(747);
 const {runCommand} = __webpack_require__(737);
 
 const run = async () => {
@@ -268,7 +269,8 @@ const run = async () => {
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 
-    core.addPath(sentryCliPath);
+    core.info(fs.existsSync(sentryCliPath));
+    core.info(fs.readdirSync(process.cwd()));
     core.info(`sentryCliPath: ${sentryCliPath}`);
     await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
 
@@ -823,6 +825,13 @@ module.exports = {
   runCommand
 };
 
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
 
 /***/ }),
 
