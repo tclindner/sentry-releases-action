@@ -48,7 +48,7 @@ For more information on these inputs, see the [API Documentation](https://develo
 ## Example usage
 
 ```yml
-uses: actions/sentry-releases-action@v1
+uses: actions/sentry-releases-action@master
 with:
   tagName: 'refs/tags/v1.0.0'
   environment: 'qa'
