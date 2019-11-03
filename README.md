@@ -1,1 +1,98 @@
 # sentry-releases-action
+
+<a href="https://github.com/tclindner/sentry-releases-action"><img alt="GitHub Actions status" src="https://github.com/tclindner/sentry-releases-action/workflows/ci/badge.svg"></a>
+
+> A GitHub action that creates [releases for Sentry.io](https://docs.sentry.io/workflow/releases/?platform=javascript).
+
+## What is sentry-releases-action?
+
+A GitHub action that makes is easy to create a release in Sentry.io based on events in GitHub. Examples:
+
+* a GitHub release is published
+* a commit is pushed to master
+* a pull request is merged to master
+
+## How do I use it?
+
+First thing first, let's make sure you have the necessary pre-requisites.
+
+### Pre-requisites
+Create a workflow `.yml` file in your repo's `.github/workflows` directory. An [example workflow](#example-workflow---create-a-release) is available below. For more information, reference the GitHub Help Documentation for [Creating a workflow file](https://help.github.com/en/articles/configuring-a-workflow#creating-a-workflow-file).
+
+### Inputs
+
+#### `tagName`
+
+**Required** The name of release in Sentry.
+
+#### `environment`
+
+**Required** The name of the environment the release was deployed to.
+
+For more information on these inputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#input)
+
+### Environment Variables
+
+#### `SENTRY_AUTH_TOKEN`
+
+**Required** Sentry auth token.
+
+#### `SENTRY_ORG`
+
+**Required** Sentry organization.
+
+#### `SENTRY_PROJECT`
+
+**Required** Sentry project name.
+
+## Example usage
+
+```yml
+uses: actions/sentry-releases-action@master
+with:
+  tagName: 'refs/tags/v1.0.0'
+  environment: 'qa'
+```
+
+> Note: `sentry-releases-action` will automatically trim `refs/tags/` from `tagName`. This means you can pass `GITHUB_REF` directly from release events without the need of mutating it first.
+
+### Full example workflow
+
+On every GitHub `release` event.
+
+```yaml
+name: ReleaseWorkflow
+
+on:
+  release:
+    type: [published, prereleased]
+
+
+jobs:
+  createSentryRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        uses: tclindner/sentry-releases-action@master
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: myAwesomeOrg
+          SENTRY_PROJECT: myAwesomeProject
+        with:
+          tagName: ${{ github.ref }}
+          environment: qa
+```
+
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Release History
+
+Please see [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+Copyright (c) 2019 Thomas Lindner. Licensed under the MIT license.

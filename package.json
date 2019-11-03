@@ -1,0 +1,51 @@
+{
+  "name": "sentry-releases-action",
+  "version": "1.0.0",
+  "description": "Sentry.io releases for GitHub Actions",
+  "keywords": [
+    "actions",
+    "node",
+    "releases",
+    "sentry"
+  ],
+  "homepage": "https://github.com/tclindner/sentry-releases-action",
+  "bugs": {
+    "url": "https://github.com/tclindner/sentry-releases-action/issues"
+  },
+  "author": "Thomas Lindner",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tclindner/sentry-releases-action"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "eslint": "eslint . --format=node_modules/eslint-formatter-pretty",
+    "npmpackagejsonlint": "npmPkgJsonLint .",
+    "lint": "npm run eslint && npm run npmpackagejsonlint",
+    "test": "jest",
+    "test:ci": "jest --runInBand",
+    "build": "ncc build src/main.js",
+    "precommit": "npm run build && git add dist/"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@sentry/cli": "^1.48.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-tc": "^9.0.0",
+    "eslint-formatter-pretty": "^2.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "npm-package-json-lint": "^4.0.3",
+    "npm-package-json-lint-config-tc": "^3.0.0",
+    "prettier": "^1.18.2"
+  },
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
