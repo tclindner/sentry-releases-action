@@ -54,7 +54,7 @@ with:
   environment: 'qa'
 ```
 
-> Note: `sentry-releases-action` will automatically trim `refs/tags/` from `tagName`. This means you can pass `GITHUB_REF` directly from release events with the need of mutating it first.
+> Note: `sentry-releases-action` will automatically trim `refs/tags/` from `tagName`. This means you can pass `GITHUB_REF` directly from release events without the need of mutating it first.
 
 ### Full example workflow
 
