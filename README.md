@@ -75,7 +75,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: Create Release
-        id: create_release
         uses: tclindner/sentry-releases-action@master
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
