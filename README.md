@@ -1,6 +1,10 @@
 # sentry-releases-action
 
+[![license](https://img.shields.io/github/license/tclindner/sentry-releases-action.svg?maxAge=2592000&style=flat-square)](https://github.com/tclindner/sentry-releases-action/blob/master/LICENSE)
 <a href="https://github.com/tclindner/sentry-releases-action"><img alt="GitHub Actions status" src="https://github.com/tclindner/sentry-releases-action/workflows/ci/badge.svg"></a>
+[![Dependency Status](https://david-dm.org/tclindner/sentry-releases-action.svg?style=flat-square)](https://david-dm.org/tclindner/sentry-releases-action)
+[![devDependency Status](https://david-dm.org/tclindner/sentry-releases-action/dev-status.svg?style=flat-square)](https://david-dm.org/tclindner/sentry-releases-action#info=devDependencies)
+
 
 > A GitHub action that creates [releases for Sentry.io](https://docs.sentry.io/workflow/releases/?platform=javascript).
 
