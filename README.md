@@ -52,10 +52,15 @@ For more information on these inputs, see the [API Documentation](https://develo
 ## Example usage
 
 ```yml
-uses: actions/sentry-releases-action@master
+name: Create a Sentry.io release
+uses: tclindner/sentry-releases-action@v1.0.0
+env:
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  SENTRY_ORG: myAwesomeOrg
+  SENTRY_PROJECT: myAwesomeProject
 with:
-  tagName: 'refs/tags/v1.0.0'
-  environment: 'qa'
+  tagName: ${{ github.ref }}
+  environment: qa
 ```
 
 > Note: `sentry-releases-action` will automatically trim `refs/tags/` from `tagName`. This means you can pass `GITHUB_REF` directly from release events without the need of mutating it first.
@@ -78,8 +83,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Create Release
-        uses: tclindner/sentry-releases-action@master
+      - name: Create a Sentry.io release
+        uses: tclindner/sentry-releases-action@v1.0.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: myAwesomeOrg
@@ -88,6 +93,8 @@ jobs:
           tagName: ${{ github.ref }}
           environment: qa
 ```
+
+> Note: This action only works on Linux x86_64 systems.
 
 ## Contributing
 
