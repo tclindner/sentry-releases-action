@@ -74,7 +74,7 @@ name: ReleaseWorkflow
 
 on:
   release:
-    type: [published, prereleased]
+    types: [published, prereleased]
 
 
 jobs:
