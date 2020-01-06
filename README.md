@@ -49,6 +49,10 @@ For more information on these inputs, see the [API Documentation](https://develo
 
 **Required** Sentry project name.
 
+#### `SENTRY_URL`
+
+**Optional** URL to the Sentry instance, useful for e.g. on-prem deployments.
+
 ## Example usage
 
 ```yml
