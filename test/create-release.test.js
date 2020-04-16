@@ -20,8 +20,8 @@ describe('create-release', () => {
         releases: {
           finalize,
           new: newMock,
-          setCommits
-        }
+          setCommits,
+        },
       };
     });
     SentryCli.getPath = getPath;
@@ -36,7 +36,7 @@ describe('create-release', () => {
     expect(setCommits).toHaveBeenCalledTimes(1);
     expect(setCommits).toHaveBeenCalledWith('v1.0.0', {
       repo,
-      auto: true
+      auto: true,
     });
 
     expect(runCommand.runCommand).toHaveBeenCalledTimes(1);
@@ -46,7 +46,7 @@ describe('create-release', () => {
       'v1.0.0',
       'new',
       '-e',
-      'qa'
+      'qa',
     ]);
 
     expect(finalize).toHaveBeenCalledTimes(1);

@@ -8,10 +8,11 @@ const run = async () => {
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tagName', {
-      required: true
+      required: true,
     });
     const environment = core.getInput('environment', {
-      required: true
+      required: true,
+    });
     });
 
     // This removes the 'refs/tags' portion of the string, i.e. from 'refs/tags/v1.0.0' to 'v1.0.0'
@@ -24,7 +25,7 @@ const run = async () => {
     // Set commits
     await cli.releases.setCommits(tag, {
       repo: 'repo',
-      auto: true
+      auto: true,
     });
 
     // Create a deployment (A node.js function isn't exposed for this operation.)
