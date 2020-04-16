@@ -27,11 +27,17 @@ Create a workflow `.yml` file in your repo's `.github/workflows` directory. An [
 
 #### `tagName`
 
-**Required** The name of release in Sentry.
+**Required** The tag being released. This is used as the Sentry release name. You can optionally prefix it using `releaseNamePrefix`.
 
 #### `environment`
 
 **Required** The name of the environment the release was deployed to.
+
+#### `releaseNamePrefix`
+
+**Optional** String that is prefixed to the tag to form the Sentry release name.
+
+> Please review Sentry's documentation regarding max length and supported characters in release names.
 
 For more information on these inputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#input)
 
@@ -97,6 +103,42 @@ jobs:
           tagName: ${{ github.ref }}
           environment: qa
 ```
+
+Assume you tagged your release as `v1.1.0`. `github.ref` would equal `refs/tags/v1.1.0`. This action automatically strips `refs/tags/`, so the Sentry release name is `v1.1.0`.
+
+### Example workflow with optional release prefix
+
+On every GitHub `release` event.
+
+```yaml
+name: ReleaseWorkflow
+
+on:
+  release:
+    types: [published, prereleased]
+
+
+jobs:
+  createSentryRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create a Sentry.io release
+        uses: tclindner/sentry-releases-action@v1.0.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: myAwesomeOrg
+          SENTRY_PROJECT: myAwesomeProject
+        with:
+          tagName: ${{ github.ref }}
+          environment: qa
+          releaseNamePrefix: myAwesomeProject-
+```
+
+Scenario 1: Assume you tagged your release as `v1.1.0`. `github.ref` would equal `refs/tags/v1.1.0`. This action automatically strips `refs/tags/`, so the Sentry release name is `myAwesomeProject-v1.1.0`.
+
+Scenario 2: Assume you tagged your release as `1.1.0` and you set `releaseNamePrefix` to `myAwesomeProject@`. `github.ref` would equal `refs/tags/1.1.0`. This action automatically strips `refs/tags/`, so the Sentry release name is `myAwesomeProject@1.1.0`.
 
 > Note: This action only works on Linux x86_64 systems.
 
