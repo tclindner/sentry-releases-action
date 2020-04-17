@@ -7,12 +7,12 @@ module.exports = {
       branches: 100,
       functions: 100,
       lines: 100,
-      statements: 100
-    }
+      statements: 100,
+    },
   },
   restoreMocks: true,
   resetMocks: true,
   resetModules: true,
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['<rootDir>/node_modules/']
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
 };

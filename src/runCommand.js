@@ -1,5 +1,6 @@
 const {execFile} = require('child_process');
 
+// eslint-disable-next-line require-await
 const runCommand = async (filePath, args) => {
   return new Promise((resolve, reject) => {
     execFile(filePath, args, (error, stdout) => {
@@ -13,5 +14,5 @@ const runCommand = async (filePath, args) => {
 };
 
 module.exports = {
-  runCommand
+  runCommand,
 };
