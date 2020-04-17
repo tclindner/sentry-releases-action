@@ -181,10 +181,14 @@ function getPath() {
  * @param {string[]} args Command line arguments passed to `sentry-cli`.
  * @param {boolean} live We inherit stdio to display `sentry-cli` output directly.
  * @param {boolean} silent Disable stdout for silents build (CI/Webpack Stats, ...)
+ * @param {string} [configFile] Relative or absolute path to the configuration file.
  * @returns {Promise.<string>} A promise that resolves to the standard output.
  */
-function execute(args, live, silent) {
+function execute(args, live, silent, configFile) {
   const env = Object.assign({}, process.env);
+  if (configFile) {
+    env.SENTRY_PROPERTIES = configFile;
+  }
   return new Promise((resolve, reject) => {
     if (live === true) {
       const pid = childProcess.spawn(getPath(), args, {
@@ -227,7 +231,7 @@ module.exports = require("child_process");
 /***/ 180:
 /***/ (function(module) {
 
-module.exports = {"_from":"@sentry/cli","_id":"@sentry/cli@1.48.0","_inBundle":false,"_integrity":"sha512-Td6UpZP6BoI0R5Guctiq3NIphAfskbyeiboWx4H1yuXPA9p4F0hL+Hrz6k3NNfzkt3AQzEkeAhvpKmIfmUOkjA==","_location":"/@sentry/cli","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@sentry/cli","name":"@sentry/cli","escapedName":"@sentry%2fcli","scope":"@sentry","rawSpec":"","saveSpec":null,"fetchSpec":"latest"},"_requiredBy":["#USER","/"],"_resolved":"https://registry.npmjs.org/@sentry/cli/-/cli-1.48.0.tgz","_shasum":"cccf2badd3fab9aeaafeaf6ef21bc74e2f6b6790","_spec":"@sentry/cli","_where":"/Users/thomaslindner/git/actions-temp","bin":{"sentry-cli":"bin/sentry-cli"},"bugs":{"url":"https://github.com/getsentry/sentry-cli/issues"},"bundleDependencies":false,"dependencies":{"fs-copy-file-sync":"^1.1.1","https-proxy-agent":"^3.0.0","mkdirp":"^0.5.1","node-fetch":"^2.1.2","progress":"2.0.0","proxy-from-env":"^1.0.0"},"deprecated":false,"description":"A command line utility to work with Sentry. https://docs.sentry.io/hosted/learn/cli/","devDependencies":{"eslint":"^4.19.1","eslint-config-airbnb-base":"^12.1.0","eslint-config-prettier":"^2.9.0","eslint-plugin-import":"^2.12.0","jest":"^21.2.1","npm-run-all":"^4.1.3","prettier":"^1.13.4","prettier-check":"^2.0.0"},"engines":{"node":">= 4.5.0"},"homepage":"https://docs.sentry.io/hosted/learn/cli/","jest":{"collectCoverage":true,"testEnvironment":"node"},"keywords":["sentry","sentry-cli","cli"],"license":"BSD-3-Clause","main":"js/index.js","name":"@sentry/cli","repository":{"type":"git","url":"git+https://github.com/getsentry/sentry-cli.git"},"scripts":{"fix":"npm-run-all fix:eslint fix:prettier","fix:eslint":"eslint --fix \"bin/*\" js","fix:prettier":"prettier --write \"bin/*\" \"scripts/*.js\" \"js/**/*.js\"","install":"node scripts/install.js","test":"npm-run-all test:jest test:eslint test:prettier","test:eslint":"eslint bin scripts js","test:jest":"jest","test:prettier":"prettier-check \"bin/*\" \"scripts/*.js\" \"js/**/*.js\"","test:watch":"jest --watch --notify"},"version":"1.48.0"};
+module.exports = {"_args":[["@sentry/cli@1.52.1","/Users/thomaslindner/git/sentry-releases-action"]],"_from":"@sentry/cli@1.52.1","_id":"@sentry/cli@1.52.1","_inBundle":false,"_integrity":"sha512-XocAy3opa7bxWEbYQ9R/whbIb4BAX2YHXvfMoCwZRzLRy9cf85FYGQCMi8JA7wQd5PBmcxUh31AxcX7jAfMPCQ==","_location":"/@sentry/cli","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"@sentry/cli@1.52.1","name":"@sentry/cli","escapedName":"@sentry%2fcli","scope":"@sentry","rawSpec":"1.52.1","saveSpec":null,"fetchSpec":"1.52.1"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/@sentry/cli/-/cli-1.52.1.tgz","_spec":"1.52.1","_where":"/Users/thomaslindner/git/sentry-releases-action","bin":{"sentry-cli":"bin/sentry-cli"},"bugs":{"url":"https://github.com/getsentry/sentry-cli/issues"},"dependencies":{"fs-copy-file-sync":"^1.1.1","https-proxy-agent":"^4.0.0","mkdirp":"^0.5.4","node-fetch":"^2.1.2","progress":"2.0.0","proxy-from-env":"^1.0.0"},"description":"A command line utility to work with Sentry. https://docs.sentry.io/hosted/learn/cli/","devDependencies":{"eslint":"^4.19.1","eslint-config-airbnb-base":"^12.1.0","eslint-config-prettier":"^2.9.0","eslint-plugin-import":"^2.12.0","jest":"^21.2.1","npm-run-all":"^4.1.3","prettier":"^1.13.4","prettier-check":"^2.0.0"},"engines":{"node":">= 8"},"homepage":"https://docs.sentry.io/hosted/learn/cli/","jest":{"collectCoverage":true,"testEnvironment":"node"},"keywords":["sentry","sentry-cli","cli"],"license":"BSD-3-Clause","main":"js/index.js","name":"@sentry/cli","repository":{"type":"git","url":"git+https://github.com/getsentry/sentry-cli.git"},"scripts":{"fix":"npm-run-all fix:eslint fix:prettier","fix:eslint":"eslint --fix \"bin/*\" js","fix:prettier":"prettier --write \"bin/*\" \"scripts/*.js\" \"js/**/*.js\"","install":"node scripts/install.js","test":"npm-run-all test:jest test:eslint test:prettier","test:eslint":"eslint bin scripts js","test:jest":"jest","test:prettier":"prettier-check \"bin/*\" \"scripts/*.js\" \"js/**/*.js\"","test:watch":"jest --watch --notify"},"version":"1.52.1"};
 
 /***/ }),
 
@@ -244,33 +248,43 @@ const run = async () => {
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tagName', {
-      required: true
+      required: true,
     });
     const environment = core.getInput('environment', {
-      required: true
+      required: true,
+    });
+    const releaseNamePrefix = core.getInput('releaseNamePrefix', {
+      required: false,
     });
 
     // This removes the 'refs/tags' portion of the string, i.e. from 'refs/tags/v1.0.0' to 'v1.0.0'
     const tag = tagName.replace('refs/tags/', '');
+    let releaseName = tag;
+
+    if (releaseNamePrefix) {
+      releaseName = `${releaseNamePrefix}${tag}`;
+    }
 
     core.info(`Tag is: ${tag}`);
+    core.info(`Sentry release is: ${releaseName}`);
+
     // Create a release
-    await cli.releases.new(tag);
+    await cli.releases.new(releaseName);
 
     // Set commits
-    await cli.releases.setCommits(tag, {
+    await cli.releases.setCommits(releaseName, {
       repo: 'repo',
-      auto: true
+      auto: true,
     });
 
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 
     core.info(`sentryCliPath: ${sentryCliPath}`);
-    await runCommand(sentryCliPath, ['releases', 'deploys', tag, 'new', '-e', environment]);
+    await runCommand(sentryCliPath, ['releases', 'deploys', releaseName, 'new', '-e', environment]);
 
     // Finalize the release
-    await cli.releases.finalize(tag);
+    await cli.releases.finalize(releaseName);
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -295,10 +309,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __webpack_require__(997);
-const os = __webpack_require__(87);
-const path = __webpack_require__(622);
+const os = __importStar(__webpack_require__(87));
+const path = __importStar(__webpack_require__(622));
 /**
  * The code to exit an action
  */
@@ -384,6 +405,13 @@ exports.setFailed = setFailed;
 //-----------------------------------------------------------------------
 // Logging Commands
 //-----------------------------------------------------------------------
+/**
+ * Gets whether Actions Step Debug is on or not
+ */
+function isDebug() {
+    return process.env['RUNNER_DEBUG'] === '1';
+}
+exports.isDebug = isDebug;
 /**
  * Writes debug message to user log
  * @param message debug message
@@ -520,11 +548,11 @@ class SentryCli {
    */
   constructor(configFile, options) {
     if (typeof configFile === 'string') {
-      process.env.SENTRY_PROPERTIES = configFile;
+      this.configFile = configFile;
     }
     this.options = options || { silent: false };
 
-    this.releases = new Releases(this.options);
+    this.releases = new Releases(Object.assign({}, this.options, { configFile }));
   }
 
   /**
@@ -550,7 +578,7 @@ class SentryCli {
    * @returns {Promise.<string>} A promise that resolves to the standard output.
    */
   execute(args, live) {
-    return helper.execute(args, live, this.options.silent);
+    return helper.execute(args, live, this.options.silent, this.configFile);
   }
 }
 
@@ -569,6 +597,10 @@ module.exports = {
   },
   ignoreFile: {
     param: '--ignore-file',
+    type: 'string',
+  },
+  dist: {
+    param: '--dist',
     type: 'string',
   },
   rewrite: {
@@ -641,6 +673,10 @@ class Releases {
    */
   constructor(options) {
     this.options = options || {};
+    if (typeof this.options.configFile === 'string') {
+      this.configFile = this.options.configFile;
+    }
+    delete this.options.configFile;
   }
 
   /**
@@ -654,7 +690,7 @@ class Releases {
    * @memberof SentryReleases
    */
   new(release) {
-    return helper.execute(['releases', 'new', release], null, this.options.silent);
+    return this.execute(['releases', 'new', release], null);
   }
 
   /**
@@ -674,10 +710,8 @@ class Releases {
    * @memberof SentryReleases
    */
   setCommits(release, options) {
-    if (!options || !options.repo || (!options.auto && !options.commit)) {
-      throw new Error(
-        'options.repo, and either options.commit or options.auto must be specified'
-      );
+    if (!options || (!options.auto && (!options.repo || !options.commit))) {
+      throw new Error('options.auto, or options.repo and options.commit must be specified');
     }
 
     let commitFlags = [];
@@ -685,15 +719,12 @@ class Releases {
     if (options.auto) {
       commitFlags = ['--auto'];
     } else if (options.previousCommit) {
-      commitFlags = [
-        '--commit',
-        `${options.repo}@${options.previousCommit}..${options.commit}`,
-      ];
+      commitFlags = ['--commit', `${options.repo}@${options.previousCommit}..${options.commit}`];
     } else {
       commitFlags = ['--commit', `${options.repo}@${options.commit}`];
     }
 
-    return helper.execute(['releases', 'set-commits', release].concat(commitFlags));
+    return this.execute(['releases', 'set-commits', release].concat(commitFlags));
   }
 
   /**
@@ -705,7 +736,7 @@ class Releases {
    * @memberof SentryReleases
    */
   finalize(release) {
-    return helper.execute(['releases', 'finalize', release], null, this.options.silent);
+    return this.execute(['releases', 'finalize', release], null);
   }
 
   /**
@@ -716,9 +747,9 @@ class Releases {
    * @memberof SentryReleases
    */
   proposeVersion() {
-    return helper
-      .execute(['releases', 'propose-version'], null, this.options.silent)
-      .then(version => version && version.trim());
+    return this.execute(['releases', 'propose-version'], null).then(
+      version => version && version.trim()
+    );
   }
 
   /**
@@ -764,14 +795,20 @@ class Releases {
       }
 
       const args = ['releases', 'files', release, 'upload-sourcemaps', sourcemapPath];
-      return helper.execute(
-        helper.prepareCommand(args, SOURCEMAPS_SCHEMA, newOptions),
-        true,
-        this.options.silent
-      );
+      return this.execute(helper.prepareCommand(args, SOURCEMAPS_SCHEMA, newOptions), true);
     });
 
     return Promise.all(uploads);
+  }
+
+  /**
+   * See {helper.execute} docs.
+   * @param {string[]} args Command line arguments passed to `sentry-cli`.
+   * @param {boolean} live We inherit stdio to display `sentry-cli` output directly.
+   * @returns {Promise.<string>} A promise that resolves to the standard output.
+   */
+  execute(args, live) {
+    return helper.execute(args, live, this.options.silent, this.configFile);
   }
 }
 
@@ -804,6 +841,7 @@ if (require.main === require.cache[eval('__filename')]) {
 
 const {execFile} = __webpack_require__(129);
 
+// eslint-disable-next-line require-await
 const runCommand = async (filePath, args) => {
   return new Promise((resolve, reject) => {
     execFile(filePath, args, (error, stdout) => {
@@ -817,7 +855,7 @@ const runCommand = async (filePath, args) => {
 };
 
 module.exports = {
-  runCommand
+  runCommand,
 };
 
 
@@ -828,17 +866,24 @@ module.exports = {
 
 "use strict";
 
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const os = __webpack_require__(87);
+const os = __importStar(__webpack_require__(87));
 /**
  * Commands
  *
  * Command Format:
- *   ##[name key=value;key=value]message
+ *   ::name key=value,key=value::message
  *
  * Examples:
- *   ##[warning]This is the user warning message
- *   ##[set-secret name=mypassword]definitelyNotAPassword!
+ *   ::warning::This is the message
+ *   ::set-env name=MY_VAR::some value
  */
 function issueCommand(command, properties, message) {
     const cmd = new Command(command, properties, message);
@@ -863,34 +908,39 @@ class Command {
         let cmdStr = CMD_STRING + this.command;
         if (this.properties && Object.keys(this.properties).length > 0) {
             cmdStr += ' ';
+            let first = true;
             for (const key in this.properties) {
                 if (this.properties.hasOwnProperty(key)) {
                     const val = this.properties[key];
                     if (val) {
-                        // safely append the val - avoid blowing up when attempting to
-                        // call .replace() if message is not a string for some reason
-                        cmdStr += `${key}=${escape(`${val || ''}`)},`;
+                        if (first) {
+                            first = false;
+                        }
+                        else {
+                            cmdStr += ',';
+                        }
+                        cmdStr += `${key}=${escapeProperty(val)}`;
                     }
                 }
             }
         }
-        cmdStr += CMD_STRING;
-        // safely append the message - avoid blowing up when attempting to
-        // call .replace() if message is not a string for some reason
-        const message = `${this.message || ''}`;
-        cmdStr += escapeData(message);
+        cmdStr += `${CMD_STRING}${escapeData(this.message)}`;
         return cmdStr;
     }
 }
 function escapeData(s) {
-    return s.replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+    return (s || '')
+        .replace(/%/g, '%25')
+        .replace(/\r/g, '%0D')
+        .replace(/\n/g, '%0A');
 }
-function escape(s) {
-    return s
+function escapeProperty(s) {
+    return (s || '')
+        .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A')
-        .replace(/]/g, '%5D')
-        .replace(/;/g, '%3B');
+        .replace(/:/g, '%3A')
+        .replace(/,/g, '%2C');
 }
 //# sourceMappingURL=command.js.map
 
