@@ -28,7 +28,7 @@
     "precommit": "npm run build && git add dist/"
   },
   "dependencies": {
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.4",
     "@sentry/cli": "^1.52.3"
   },
   "devDependencies": {
