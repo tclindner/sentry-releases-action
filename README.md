@@ -142,6 +142,10 @@ Scenario 2: Assume you tagged your release as `1.1.0` and you set `releaseNamePr
 
 > Note: This action only works on Linux x86_64 systems.
 
+## Related
+
+[sentry-release-deploy-action](https://github.com/tclindner/sentry-release-deploy-action) - Action used create a deploy for an existing release created by this action.
+
 ## Contributing
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md).
