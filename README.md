@@ -41,6 +41,12 @@ Create a workflow `.yml` file in your repo's `.github/workflows` directory. An [
 
 For more information on these inputs, see the [API Documentation](https://developer.github.com/v3/repos/releases/#input)
 
+#### `sourceMapOptions`
+
+**Optional** A JSON object containing options to control [source map uploading](https://docs.sentry.io/cli/releases/#sentry-cli-sourcemaps).
+
+Refer to [Sentry's CLI JS](https://github.com/getsentry/sentry-cli/blob/1f5cdbb6897e41a7e9a3892aea3b34b4c0341207/js/releases/index.js#L114-L144) for possible values. The only required value is `include` which is an array of paths to upload source maps from.
+
 ### Environment Variables
 
 #### `SENTRY_AUTH_TOKEN`
