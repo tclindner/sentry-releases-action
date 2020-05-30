@@ -37,6 +37,16 @@ const run = async () => {
       auto: true,
     });
 
+    /* istanbul ignore next */
+    const sourceMapOptions = core.getInput('sourceMapOptions', {
+      required: false,
+    });
+
+    /* istanbul ignore next */
+    if (sourceMapOptions) {
+      await cli.releases.uploadSourceMaps(releaseName, JSON.parse(sourceMapOptions));
+    }
+
     // Create a deployment (A node.js function isn't exposed for this operation.)
     const sentryCliPath = SentryCli.getPath();
 

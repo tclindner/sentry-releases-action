@@ -10,6 +10,10 @@ inputs:
   releaseNamePrefix:
     description: 'String to prefix tagName with. Used as the Sentry release name.'
     required: false
+  sourceMapOptions:
+    description: 'Options for source map uploading. Must be provided as JSON. Refer to Sentry CLI docs for available parameters.'
+    required: false
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
