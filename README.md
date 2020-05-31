@@ -51,7 +51,7 @@ Refer to [Sentry's CLI JS](https://github.com/getsentry/sentry-cli/blob/1f5cdbb6
 
 #### `SENTRY_AUTH_TOKEN`
 
-**Required** Sentry auth token.
+**Required** Sentry auth token. The token needs the `org:read` and `project:releases` scopes.
 
 #### `SENTRY_ORG`
 
@@ -80,6 +80,8 @@ with:
 ```
 
 > Note: `sentry-releases-action` will automatically trim `refs/tags/` from `tagName`. This means you can pass `GITHUB_REF` directly from release events without the need of mutating it first.
+
+If you prefer to use the commit as the release name, use `${{ github.sha }}` for the `tagName` parameter.
 
 ### Full example workflow
 
