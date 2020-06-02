@@ -69,7 +69,7 @@ Refer to [Sentry's CLI JS](https://github.com/getsentry/sentry-cli/blob/1f5cdbb6
 
 ```yml
 name: Create a Sentry.io release
-uses: tclindner/sentry-releases-action@v1.0.0
+uses: tclindner/sentry-releases-action@v1.2.0
 env:
   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
   SENTRY_ORG: myAwesomeOrg
@@ -102,7 +102,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: Create a Sentry.io release
-        uses: tclindner/sentry-releases-action@v1.0.0
+        uses: tclindner/sentry-releases-action@v1.2.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: myAwesomeOrg
@@ -112,7 +112,7 @@ jobs:
           environment: qa
 ```
 
-Assume you tagged your release as `v1.1.0`. `github.ref` would equal `refs/tags/v1.1.0`. This action automatically strips `refs/tags/`, so the Sentry release name is `v1.1.0`.
+Assume you tagged your release as `v1.0.0`. `github.ref` would equal `refs/tags/v1.0.0`. This action automatically strips `refs/tags/`, so the Sentry release name is `v1.0.0`.
 
 ### Example workflow with optional release prefix
 
@@ -133,7 +133,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: Create a Sentry.io release
-        uses: tclindner/sentry-releases-action@v1.0.0
+        uses: tclindner/sentry-releases-action@v1.2.0
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: myAwesomeOrg
