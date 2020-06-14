@@ -150,6 +150,41 @@ Scenario 2: Assume you tagged your release as `1.1.0` and you set `releaseNamePr
 
 > Note: This action only works on Linux x86_64 systems.
 
+### Example workflow with optional sourcemap upload
+
+On every GitHub `release` event.
+
+```yaml
+name: ReleaseWorkflow
+
+on:
+  release:
+    types: [published, prereleased]
+
+
+jobs:
+  createSentryRelease:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create a Sentry.io release
+        uses: tclindner/sentry-releases-action@v1.2.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: myAwesomeOrg
+          SENTRY_PROJECT: myAwesomeProject
+        with:
+          tagName: ${{ github.ref }}
+          environment: qa
+          releaseNamePrefix: myAwesomeProject-
+          sourceMapOptions: {include: ['build']}
+```
+
+As noted above, refer to [Sentry's CLI JS](https://github.com/getsentry/sentry-cli/blob/1f5cdbb6897e41a7e9a3892aea3b34b4c0341207/js/releases/index.js#L114-L144) for possible values. `include` is the only required value.
+
+> Note: This action only works on Linux x86_64 systems.
+
 ## Related
 
 [sentry-release-deploy-action](https://github.com/tclindner/sentry-release-deploy-action) - Action used create a deploy for an existing release created by this action.
