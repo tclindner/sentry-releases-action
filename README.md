@@ -178,7 +178,7 @@ jobs:
           tagName: ${{ github.ref }}
           environment: qa
           releaseNamePrefix: myAwesomeProject-
-          sourceMapOptions: {include: ['build']}
+          sourceMapOptions: '{"include": ["build"]}'
 ```
 
 As noted above, refer to [Sentry's CLI JS](https://github.com/getsentry/sentry-cli/blob/1f5cdbb6897e41a7e9a3892aea3b34b4c0341207/js/releases/index.js#L114-L144) for possible values. `include` is the only required value.
