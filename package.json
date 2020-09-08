@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.5",
-    "@sentry/cli": "^1.56.0"
+    "@sentry/cli": "^1.56.1"
   },
   "devDependencies": {
     "eslint": "^7.8.1",
