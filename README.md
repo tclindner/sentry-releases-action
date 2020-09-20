@@ -75,7 +75,7 @@ env:
   SENTRY_ORG: myAwesomeOrg
   SENTRY_PROJECT: myAwesomeProject
 with:
-  tagName: ${{ github.ref }}
+  tagName: ${{ github.sha }}
   environment: qa
 ```
 
@@ -108,7 +108,7 @@ jobs:
           SENTRY_ORG: myAwesomeOrg
           SENTRY_PROJECT: myAwesomeProject
         with:
-          tagName: ${{ github.ref }}
+          tagName: ${{ github.sha }}
           environment: qa
 ```
 
@@ -139,7 +139,7 @@ jobs:
           SENTRY_ORG: myAwesomeOrg
           SENTRY_PROJECT: myAwesomeProject
         with:
-          tagName: ${{ github.ref }}
+          tagName: ${{ github.sha }}
           environment: qa
           releaseNamePrefix: myAwesomeProject-
 ```
@@ -175,7 +175,7 @@ jobs:
           SENTRY_ORG: myAwesomeOrg
           SENTRY_PROJECT: myAwesomeProject
         with:
-          tagName: ${{ github.ref }}
+          tagName: ${{ github.sha }}
           environment: qa
           releaseNamePrefix: myAwesomeProject-
           sourceMapOptions: '{"include": ["build"]}'
