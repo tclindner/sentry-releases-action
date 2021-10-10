@@ -5,4 +5,12 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  assignees:
+  - tclindner
+  labels:
+  - 'dependencies :package:'
   versioning-strategy: increase
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "daily"
