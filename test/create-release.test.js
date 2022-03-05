@@ -15,15 +15,13 @@ describe('create-release', () => {
     const getPath = jest.fn().mockReturnValue('sentryCliPath');
     const repo = 'repo';
 
-    SentryCli.mockImplementation(() => {
-      return {
-        releases: {
-          finalize,
-          new: newMock,
-          setCommits,
-        },
-      };
-    });
+    SentryCli.mockImplementation(() => ({
+      releases: {
+        finalize,
+        new: newMock,
+        setCommits,
+      },
+    }));
     SentryCli.getPath = getPath;
     core.getInput.mockReturnValueOnce('refs/tags/v1.0.0').mockReturnValueOnce('qa');
     runCommand.runCommand.mockResolvedValue('done');
@@ -62,15 +60,13 @@ describe('create-release', () => {
     const getPath = jest.fn().mockReturnValue('sentryCliPath');
     const repo = 'repo';
 
-    SentryCli.mockImplementation(() => {
-      return {
-        releases: {
-          finalize,
-          new: newMock,
-          setCommits,
-        },
-      };
-    });
+    SentryCli.mockImplementation(() => ({
+      releases: {
+        finalize,
+        new: newMock,
+        setCommits,
+      },
+    }));
     SentryCli.getPath = getPath;
     core.getInput
       .mockReturnValueOnce('refs/tags/v1.0.0')
