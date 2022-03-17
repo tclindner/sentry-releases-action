@@ -43,7 +43,7 @@
     "jest": "^27.5.1",
     "npm-package-json-lint": "^6.0.3",
     "npm-package-json-lint-config-tc": "^6.0.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.0"
   },
   "engines": {
     "node": ">=14.0.0",
