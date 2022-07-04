@@ -39,7 +39,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-prettier": "^4.1.0",
-    "eslint-plugin-unicorn": "^42.0.0",
+    "eslint-plugin-unicorn": "^43.0.0",
     "jest": "^28.1.1",
     "npm-package-json-lint": "^6.3.0",
     "npm-package-json-lint-config-tc": "^6.0.0",
