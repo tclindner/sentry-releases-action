@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
-    "eslint-config-tc": "^24.1.0",
+    "eslint-config-tc": "^25.0.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^27.8.0",
