@@ -1,6 +1,6 @@
 {
   "name": "sentry-releases-action",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Sentry.io releases for GitHub Actions",
   "keywords": [
     "actions",
